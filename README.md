@@ -1,6 +1,6 @@
 # Coursework portfolio
 
-Python notebooks from my studies at TU Delft (BSc Technology, Policy and Management; MSc Complex Systems Engineering and Management) and an exchange at Universidad Pontificia Comillas.
+Python and Java projects, and reports from my studies at TU Delft (BSc Technology, Policy and Management; MSc Complex Systems Engineering and Management) and an exchange at Universidad Pontificia Comillas.
 
 | Folder | Content |
 |---|---|
@@ -10,6 +10,9 @@ Python notebooks from my studies at TU Delft (BSc Technology, Policy and Managem
 | `network-science-lectures/` | Graph representations, random and scale-free networks with networkx |
 | `responsible-data-analytics/` | Preprocessing, regression and correlation analysis on health datasets |
 | `graph-theory-besliskunde/` | Graph algorithms for decision problems: shortest paths, matching, Euler circuits (Dutch) |
+| `java/` | Java: a number guessing game and a two-player dice game |
+| `digital-platform-design/` | Reports: BattCycle battery-sharing platform design and a comparison of European data spaces |
+| `data-science-group-project-obesity/` | Group report on factors behind obesity types (Dutch) |
 
 **Note:** these are course assignments and exercises. Some notebooks are based on material from the course teams (credited inside the notebooks where applicable). Outputs were cleared; datasets that belong to the course are not included. Code is shared to show how I work, not as a reference solution.
 
