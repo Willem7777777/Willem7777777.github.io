@@ -142,6 +142,10 @@ All sessions use Mollie **test mode** only.
 - [ ] Run the collection with Newman in a terminal.
 - [ ] Add a test that checks `amount.value` is a string.
 
+## Next steps in code
+
+The Postman work is the manual side of the API. Two Python projects build on it: [`../mollie-webhook-receiver`](../mollie-webhook-receiver) is the server that answers the webhooks Mollie sends, and [`../mollie-yoga-studio-poc`](../mollie-yoga-studio-poc) is a small fictional merchant that uses customers, mandates and subscriptions the way folder 5 of this collection does.
+
 ## What I learned
 
 - **REST basics:** resources, HTTP methods and status codes (201 Created, 401, 422), JSON request and response bodies.

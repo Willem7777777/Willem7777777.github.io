@@ -25,6 +25,14 @@
     .courses { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:4px 28px; }
     .courses h4:first-child { margin-top:0; }
     .courses ul { margin-top:2px; font-size:.95rem; }
+    .tabs { display:flex; gap:8px; margin:0 0 16px; border-bottom:2px solid var(--line); }
+    .tab { font:inherit; font-weight:600; background:none; border:0; border-bottom:3px solid transparent; margin-bottom:-2px; padding:8px 18px; color:var(--muted); cursor:pointer; }
+    .tab[aria-selected="true"] { color:var(--accent); border-bottom-color:var(--accent); }
+    .tab:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+    .panel[hidden] { display:none; }
+    .group { margin:20px 0 8px; font-size:.95rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+    .group:first-child { margin-top:0; }
+    .note { color:var(--muted); margin:0 0 4px; }
     footer { text-align:center; color:var(--muted); font-size:.85rem; padding:0 20px 32px; }
     a { color:var(--accent); }
   </style>
@@ -126,8 +134,15 @@
       </div>
     </section>
 
-    <section id="research">
-      <h2>Research</h2>
+    <section id="work">
+      <h2>Reports and code</h2>
+      <div class="tabs" role="tablist" aria-label="Reports and code">
+        <button class="tab" role="tab" id="tab-reports" aria-controls="panel-reports" aria-selected="true">Reports</button>
+        <button class="tab" role="tab" id="tab-code" aria-controls="panel-code" aria-selected="false">Code</button>
+      </div>
+
+      <div class="panel" role="tabpanel" id="panel-reports" aria-labelledby="tab-reports">
+        <h4 class="group">Theses</h4>
       <div class="card">
         <h3>MSc thesis – Privacy threats in MCP and A2A</h3>
         <div class="meta">TU Delft, Complex Systems Engineering and Management · 2026 · <a href="https://repository.tudelft.nl/record/uuid:d33074a3-a233-4b39-a9c6-69b48d8ec0f9">Read the thesis in the TU Delft repository</a></div>
@@ -138,6 +153,30 @@
         <div class="meta">TU Delft, Technology, Policy and Management · July 2024 · graded 8.3/10 · <a href="bachelor-thesis-digid-eidas/bachelor-thesis-digid-eidas-report.pdf">Read the report (PDF)</a> · <a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/bachelor-thesis-digid-eidas">Notes</a></div>
         <p>The EU issues regulations that are developed separately, and each country has to fit them together in a working digital and legal system. This project asks whether the EU Data Act can be implemented in the Netherlands without DigiD fully complying with the Dutch Wet Digitale Overheid, which builds on eIDAS. Using a literature review, expert interviews and insights from the Identity Week Europe conference, it concludes that DigiD must meet the WDO requirements for citizens to share their data securely under the Data Act, and that the slow rollout of ID documents with the required chips is a further delay.</p>
       </div>
+        <h4 class="group">Papers, reflections and presentations</h4>
+      <div class="card">
+        <h3>Papers</h3>
+        <div class="meta">TU Delft, MSc Complex Systems Engineering and Management · <a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/reports-papers">Notes</a></div>
+        <ul>
+          <li><a href="reports-papers/dpp-architecture-literature-review.pdf">Literature review: architectural requirements for the Digital Product Passport</a> (2025). A review of 12 articles on modular design, interoperability, governance and scalability.</li>
+          <li><a href="reports-papers/mfa-fatigue-zero-trust-user-centred-security.pdf">Designing user-centred authentication in Zero Trust environments</a> (2026). Addresses MFA fatigue with an agentic "Security Copilot" that verifies only when the context changes.</li>
+          <li><a href="reports-papers/chat-control-collaborative-governance.pdf">Balancing privacy and protection: collaborative governance in the Chat Control debate</a> (2025). Stakeholder analysis of client-side scanning in the EU.</li>
+          <li><a href="reports-papers/hybrid-cloud-digital-sovereignty-research-proposal.pdf">Designing and governing multi/hybrid cloud architectures for digital sovereignty in the EU</a> (2026). An early thesis research proposal.</li>
+          <li><a href="reports-papers/smart-matter-service-design-reflection.pdf">Reflection on the Smart Matter project</a> (2025). Design science reflection on an open-source smart-home IoT platform.</li>
+          <li><a href="reports-papers/toeslagenschandaal-data-algorithms-essay.pdf">Data and algorithms in the childcare benefits scandal</a> (2023, Dutch). Essay on the role of technology in the toeslagenaffaire.</li>
+          <li><a href="reports-papers/wgs-opinion-article-governance.pdf">Opinion article on the WGS data-sharing law</a> (2024, Dutch). Privacy and security in public-private data sharing.</li>
+          <li><a href="reports-papers/cybercrime-science-group-presentation.pdf">Connecting risk: how digital infrastructure shapes global cyberattacks</a> (2025). Group presentation: regression analysis (OLS, Lasso, Ridge) of connectivity data and cyberattack frequency.</li>
+          <li><a href="reports-papers/thesis-defence-slides.pdf">MSc thesis defence slides</a> (2026). Overview of the MCP and A2A privacy threat analysis: method, 8 key threats, expert validation.</li>
+        </ul>
+      </div>
+        <h4 class="group">Project reports</h4>
+        <div class="card">
+          <ul>
+            <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/digital-platform-design"><strong>Digital platform design</strong></a>: the BattCycle battery-sharing platform report and a comparison of European data spaces.</li>
+            <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/data-science-group-project-obesity"><strong>Data science group project</strong></a>: report on factors behind obesity types (Dutch).</li>
+          </ul>
+        </div>
+        <h4 class="group">Published articles</h4>
       <div class="card">
         <h3>Articles on post-quantum cryptography in financial services</h3>
         <div class="meta">Published on ey.com · I contributed to these as part of the EY team working on the PQC roadmap</div>
@@ -146,13 +185,21 @@
           <li><a href="https://www.ey.com/en_nl/insights/financial-services/pqc-migration-in-financial-services-a-roadmap-for-crypto-agility">PQC migration in financial services: a roadmap for crypto-agility</a></li>
         </ul>
       </div>
-    </section>
+      </div>
 
-    <section>
-      <h2>Projects</h2>
-      <div class="card">
-        <p>My code projects are on <a href="https://github.com/Willem7777777/Willem7777777.github.io">GitHub</a>. Each folder has a README that explains what I built and what I learned.</p>
-        <ul>
+      <div class="panel" role="tabpanel" id="panel-code" aria-labelledby="tab-code" hidden>
+        <p class="note">All code is on <a href="https://github.com/Willem7777777/Willem7777777.github.io">GitHub</a>. Each folder has a README that explains what I built and what I learned.</p>
+        <h4 class="group">Recent: APIs and payments (Mollie, test mode)</h4>
+        <div class="card">
+          <ul>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/mollie-api-postman"><strong>Postman collection for the Mollie Payments API</strong></a>: payments, customers, mandates and subscriptions, webhooks, idempotency keys and data-driven test runs, in test mode</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/mollie-webhook-receiver"><strong>Python – webhook receiver</strong></a>: a Flask service that receives Mollie webhooks, fetches the payment, ignores duplicates and answers so that Mollie retries when needed, with tests</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/mollie-yoga-studio-poc"><strong>Python – payments proof of concept</strong></a>: a fictional yoga studio with a one-off pass and a monthly membership (first payment, mandate, subscription created from the webhook with idempotency), with tests</li>
+          </ul>
+        </div>
+        <h4 class="group">Older: coursework code (TU Delft and Comillas)</h4>
+        <div class="card">
+          <ul>
           <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/data-science-tb"><strong>Python – data science</strong></a>: exploratory analysis in pandas, sampling and bootstrapping, hypothesis tests, simple and multiple regression with residual checks, text clustering, and an obesity data analysis</li>
           <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/finance-python-comillas"><strong>Python – finance</strong></a>: NPV and IRR, bond pricing, yield to maturity, duration and convexity, yield curve calibration, and portfolio optimisation with a Sharpe-ratio objective</li>
           <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/network-accessibility-helsinki"><strong>Python – network analysis</strong></a>: accessibility of Helsinki districts using geospatial data, graphs and betweenness centrality</li>
@@ -160,11 +207,10 @@
           <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/responsible-data-analytics"><strong>Python – responsible data analytics</strong></a>: data cleaning and correlation analysis on health data, and a group project predicting travel mode with logistic regression, random forest, XGBoost and SHAP explanations</li>
           <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/graph-theory-besliskunde"><strong>Python – graph algorithms</strong></a>: modelling housing and chore problems as graphs, with maximum flow, matching and route search</li>
           <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/java"><strong>Java</strong></a>: a guessing game and a two-player dice game</li>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/digital-platform-design"><strong>Digital platform design</strong></a>: BattCycle platform report and a comparison of European data spaces</li>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/data-science-group-project-obesity"><strong>Data science group project</strong></a>: factors behind obesity types, from research question to results</li>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/mollie-api-postman"><strong>API experiments</strong></a>: Postman collection for the Mollie Payments API in test mode, covering payments, customers, mandates and subscriptions, webhooks, idempotency keys and data-driven test runs</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/data-science-group-project-obesity"><strong>Data science group project</strong></a>: factors behind obesity types, from research question to results (report in Dutch)</li>
           <li><strong>SQL</strong> – coming soon</li>
-        </ul>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -237,5 +283,31 @@
   </main>
 
   <footer>Personal portfolio page. Not a business website.</footer>
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('.tab');
+      function show(id) {
+        tabs.forEach(function (t) {
+          var on = t.id === 'tab-' + id;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+        });
+      }
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+          var id = t.id.replace('tab-', '');
+          show(id);
+          try { history.replaceState(null, '', '#' + id); } catch (e) {}
+        });
+      });
+      function fromHash() {
+        var h = location.hash.replace('#', '');
+        if (h === 'code' || h === 'reports') show(h);
+      }
+      window.addEventListener('hashchange', fromHash);
+      fromHash();
+    })();
+  </script>
+  <noscript><style>.panel[hidden]{display:block}.tabs{display:none}</style></noscript>
 </body>
 </html>
