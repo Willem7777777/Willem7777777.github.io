@@ -17,9 +17,14 @@
     h2 { font-size:1.3rem; margin:0 0 12px; color:var(--accent); }
     .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin-bottom:12px; }
     .card h3 { margin:0 0 4px; font-size:1.05rem; }
+    .card h4 { margin:14px 0 4px; font-size:.95rem; color:var(--accent); }
     .card .meta { color:var(--muted); font-size:.9rem; margin-bottom:6px; }
+    .card p { margin:6px 0; }
     ul { margin:6px 0 0; padding-left:20px; }
     .tags span { display:inline-block; background:#e6f1ec; color:var(--accent); border-radius:999px; padding:3px 12px; margin:0 6px 6px 0; font-size:.9rem; }
+    .courses { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:4px 28px; }
+    .courses h4:first-child { margin-top:0; }
+    .courses ul { margin-top:2px; font-size:.95rem; }
     footer { text-align:center; color:var(--muted); font-size:.85rem; padding:0 20px 32px; }
     a { color:var(--accent); }
   </style>
@@ -36,7 +41,7 @@
     <section>
       <h2>About</h2>
       <div class="card">
-        <p>I recently graduated from TU Delft, with the data science and data architecture track in both my bachelor and master. I am interested in how financial systems connect and talk to each other, and how that can be done securely and in a standardised way. This page is my portfolio and a place for the projects I have built.</p>
+        <p>I graduated from TU Delft with an MSc in Complex Systems Engineering and Management, in the Data and Digitalisation track, after a BSc in Technology, Policy and Management in the same track. I am interested in how financial systems connect and talk to each other, and how that can be done securely and in a standardised way. This page is my portfolio and a place for the projects I have built.</p>
       </div>
     </section>
 
@@ -44,66 +49,190 @@
       <h2>Focus areas</h2>
       <div class="tags">
         <span>APIs</span><span>Agentic AI (MCP, A2A)</span><span>Agentic payments</span>
-        <span>Financial services</span><span>IT architecture</span><span>Cybersecurity</span>
+        <span>Financial services</span><span>Financial fraud detection</span><span>IT architecture</span><span>Cybersecurity</span>
         <span>DORA</span><span>NIS2</span><span>PSD2</span><span>GDPR</span>
         <span>Post-quantum cryptography</span><span>Digital identity</span>
       </div>
     </section>
 
     <section>
+      <h2>Skills and languages</h2>
+      <div class="tags">
+        <span>Python</span><span>SQL (MySQL)</span><span>Java</span><span>SPSS</span><span>Excel</span><span>PowerPoint</span>
+        <span>APIs (Postman)</span><span>Data analysis and statistics</span><span>Data integration and systems mapping</span>
+      </div>
+      <p style="margin:6px 0 0;color:var(--muted);font-size:.95rem;">Languages: Dutch (native), English (fluent), German (conversational).</p>
+    </section>
+
+    <section>
       <h2>Experience</h2>
       <div class="card">
-        <h3>EY – Technology Consulting, Cybersecurity for Financial Services</h3>
+        <h3>Fokker Services Group – Digitalisation Consultant, Aerospace</h3>
+        <div class="meta">Singapore · May 2026 – Aug 2026 · International Research Project</div>
         <ul>
-          <li>Helped set up a service offering and worked with multiple banks and IBM.</li>
-          <li>Worked extensively with DORA, NIS2, PSD2 and GDPR compliance.</li>
-          <li>Wrote a post-quantum cryptography (PQC) roadmap for the financial sector, presented at the EY Cyberday.</li>
+          <li>Scoped and led technical discovery and solution design for a data integration project: a digital twin of four maintenance (MRO) workflows inside the hangar, with two months on site.</li>
+          <li>Ran 40+ interviews from the hangar floor to the board and mapped how work and data moved between the enterprise systems behind each workflow. Two core systems turned out to still exchange data by hand.</li>
+          <li>Traced where handovers between teams and systems stalled, designed one integration across the four workflows after assessing tracking vendors, and built the business case behind it.</li>
+          <li>Presented findings and progress weekly to the Global CEO, CTO and CISO.</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Fokker Services Asia – Singapore</h3>
-        <div class="meta">International Research Project</div>
+        <h3>EY – Working Student, Cybersecurity for Financial Services</h3>
+        <div class="meta">Amsterdam · Sep 2025 – Jan 2026</div>
         <ul>
-          <li>Co-led a Digital Initiatives project on traceability and accountability gaps in MRO operations.</li>
-          <li>Client-facing work, translating operational needs into concrete requirements.</li>
+          <li>Led the post-quantum cryptography (PQC) transition project day to day, coordinating EY teams, cryptographers, banks and vendors in weekly sessions, and partnering with IBM to take the result to market as a new EY service offering.</li>
+          <li>Contributed to the PQC transition roadmap for financial institutions and to the articles published on it, and helped present it to banking clients at the EY Cyberday (<a href="#research">see articles</a>).</li>
+          <li>Worked with the CISO of a large financial institution on security reporting, turning technical activity into status that leadership could act on, and supported clients on DORA, NIS2, GDPR and PSD2.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Avanade – Thesis Intern, Technology Advisory</h3>
+        <div class="meta">Amsterdam · Feb 2026 – Jun 2026 · Accenture and Microsoft joint venture</div>
+        <ul>
+          <li>Designed and carried out independent research on privacy threats in the API protocols MCP and A2A, through which AI agents connect to external systems, with financial fraud detection in banking as the use case. I modelled the workflow end to end, mapped the threats against an AI privacy framework and validated them in expert interviews (<a href="#research">see thesis</a>).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>International Research Projects (IRP) Delft – Strategy &amp; Technology Consultant</h3>
+        <div class="meta">Delft and Singapore · Jan 2026 – Aug 2026 · student project</div>
+        <ul>
+          <li>Selected from 130 applicants as one of 20 TU Delft MSc students delivering strategy and technology projects for Allseas, Heerema, Ampelmann, Johnson &amp; Johnson and Fokker Services Group in Asia.</li>
+          <li>Trained in hypothesis-led problem solving and client communication by consultants from McKinsey, Bain, BCG and Accenture.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>DSC – Financial Commissioner and External Affairs Committee</h3>
+        <div class="meta">Delft · Sep 2024 – Jul 2025</div>
+        <ul>
+          <li>Coordinated 8+ career events and advised 23+ subcommittees of an association with 2,300+ members, keeping parallel workstreams and deadlines on track.</li>
+          <li>Secured €100K+ in sponsorships with 25+ corporates and was awarded a 4-month TU Delft board scholarship.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>TU Delft, Faculty of Technology, Policy and Management – Member of the Board of Studies</h3>
+        <div class="meta">Delft · Sep 2025 – Jun 2026</div>
+        <ul><li>Elected to advise the Dean and programme directors on the quality of the TPM master programmes.</li></ul>
+      </div>
+      <div class="card">
+        <h3>Entis – Sustainable Development Investment Analyst</h3>
+        <div class="meta">Utrecht · Sep 2023 – Oct 2024</div>
+        <ul><li>At an AI company whose platform extracts financial insights from annual and sustainability reports for investors: assessed 100+ corporate reports against a fixed labelling procedure, determined revenue sources by activity and assigned the SDI labels used to align portfolios with EU sustainability goals.</li></ul>
+      </div>
+      <div class="card">
+        <h3>Earlier work</h3>
+        <ul>
+          <li><strong>De Warmte</strong> (Delft, 2020 – 2022): assembly technician at a startup making hybrid heat pumps, with hands-on insight into hardware assembly and production scaling.</li>
+          <li>Various jobs (2015 – 2025): teaching, coaching field hockey, outdoor advertising, summer work at Shell and hospitality.</li>
         </ul>
       </div>
     </section>
 
-    <section>
+    <section id="research">
       <h2>Research</h2>
       <div class="card">
         <h3>MSc thesis – Privacy threats in MCP and A2A</h3>
-        <div class="meta">TU Delft, Complex Systems Engineering and Management</div>
-        <p>Research on agentic AI communication protocols (MCP and A2A), with fraud detection at banks as the use case. The core question: how can systems communicate securely and in a standardised way on top of existing APIs? Followed by further exploration of agentic payments: how do you authorise and verify a payment that an agent initiates on behalf of a user?</p>
+        <div class="meta">TU Delft, Complex Systems Engineering and Management · 2026 · <a href="https://repository.tudelft.nl/record/uuid:d33074a3-a233-4b39-a9c6-69b48d8ec0f9">Read the thesis in the TU Delft repository</a></div>
+        <p>Research on privacy threats in the API protocols for AI agents (MCP and A2A), with financial fraud detection at banks as the use case. The core question: how can systems communicate securely and in a standardised way on top of existing APIs? The work modelled the workflow end to end, mapped the threats against an AI privacy framework and validated them in expert interviews. Followed by further exploration of agentic payments: how do you authorise and verify a payment that an agent initiates on behalf of a user?</p>
+      </div>
+      <div class="card">
+        <h3>BSc thesis – Enhancing Digital Identity: Aligning DigiD with the eIDAS Regulations and EU Data Act</h3>
+        <div class="meta">TU Delft, Technology, Policy and Management · July 2024 · graded 8.3/10 · <a href="bachelor-thesis-digid-eidas/bachelor-thesis-digid-eidas-report.pdf">Read the report (PDF)</a> · <a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/bachelor-thesis-digid-eidas">Notes</a></div>
+        <p>The EU issues regulations that are developed separately, and each country has to fit them together in a working digital and legal system. This project asks whether the EU Data Act can be implemented in the Netherlands without DigiD fully complying with the Dutch Wet Digitale Overheid, which builds on eIDAS. Using a literature review, expert interviews and insights from the Identity Week Europe conference, it concludes that DigiD must meet the WDO requirements for citizens to share their data securely under the Data Act, and that the slow rollout of ID documents with the required chips is a further delay.</p>
+      </div>
+      <div class="card">
+        <h3>Articles on post-quantum cryptography in financial services</h3>
+        <div class="meta">Published on ey.com · I contributed to these as part of the EY team working on the PQC roadmap</div>
+        <ul>
+          <li><a href="https://www.ey.com/en_nl/insights/financial-services/is-the-financial-sector-ready-for-the-transition-towards-post-quantum-cryptography">Is the financial sector ready for the transition towards post-quantum cryptography?</a></li>
+          <li><a href="https://www.ey.com/en_nl/insights/financial-services/pqc-migration-in-financial-services-a-roadmap-for-crypto-agility">PQC migration in financial services: a roadmap for crypto-agility</a></li>
+        </ul>
       </div>
     </section>
 
     <section>
       <h2>Projects</h2>
       <div class="card">
-        <p>My code projects are on <a href="https://github.com/Willem7777777/Willem7777777.github.io">GitHub</a>.</p>
+        <p>My code projects are on <a href="https://github.com/Willem7777777/Willem7777777.github.io">GitHub</a>. Each folder has a README that explains what I built and what I learned.</p>
         <ul>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/data-science-tb"><strong>Python – data science</strong></a>: sampling, regression, bootstrapping, text and graph analysis, and an obesity data analysis</li>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/finance-python-comillas"><strong>Python – finance</strong></a>: NPV and IRR, bond pricing, yield curves, portfolio optimisation</li>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/network-accessibility-helsinki"><strong>Python – network analysis</strong></a>: accessibility of Helsinki districts</li>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/network-science-lectures"><strong>Python – network science</strong></a>: random and scale-free networks, graph representations</li>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/responsible-data-analytics"><strong>Python – responsible data analytics</strong></a>: preprocessing, regression and correlation on health data</li>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/graph-theory-besliskunde"><strong>Python – graph algorithms</strong></a>: shortest paths, matching, Euler circuits</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/data-science-tb"><strong>Python – data science</strong></a>: exploratory analysis in pandas, sampling and bootstrapping, hypothesis tests, simple and multiple regression with residual checks, text clustering, and an obesity data analysis</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/finance-python-comillas"><strong>Python – finance</strong></a>: NPV and IRR, bond pricing, yield to maturity, duration and convexity, yield curve calibration, and portfolio optimisation with a Sharpe-ratio objective</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/network-accessibility-helsinki"><strong>Python – network analysis</strong></a>: accessibility of Helsinki districts using geospatial data, graphs and betweenness centrality</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/network-science-lectures"><strong>Python – network science</strong></a>: generating random and scale-free networks and measuring clustering, path length and diameter</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/responsible-data-analytics"><strong>Python – responsible data analytics</strong></a>: data cleaning and correlation analysis on health data, and a group project predicting travel mode with logistic regression, random forest, XGBoost and SHAP explanations</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/graph-theory-besliskunde"><strong>Python – graph algorithms</strong></a>: modelling housing and chore problems as graphs, with maximum flow, matching and route search</li>
           <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/java"><strong>Java</strong></a>: a guessing game and a two-player dice game</li>
           <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/digital-platform-design"><strong>Digital platform design</strong></a>: BattCycle platform report and a comparison of European data spaces</li>
-          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/data-science-group-project-obesity"><strong>Data science group project</strong></a>: factors behind obesity types</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/data-science-group-project-obesity"><strong>Data science group project</strong></a>: factors behind obesity types, from research question to results</li>
+          <li><a href="https://github.com/Willem7777777/Willem7777777.github.io/tree/main/mollie-api-postman"><strong>API experiments</strong></a>: Postman collection for the Mollie Payments API in test mode, covering payments, customers, mandates and subscriptions, webhooks, idempotency keys and data-driven test runs</li>
           <li><strong>SQL</strong> – coming soon</li>
-          <li><strong>API experiments</strong> – REST APIs and Postman with the Mollie API (coming soon)</li>
         </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Relevant coursework</h2>
+      <div class="card">
+        <div class="courses">
+          <div>
+            <h4>Data &amp; Analytics</h4>
+            <ul>
+              <li>Responsible Data Analytics</li><li>Statistical Analysis of Choice Behaviour</li><li>Data Science in Technische Bestuurskunde</li><li>Multivariate Data Analysis</li><li>Statistics and Data Analysis</li><li>Research and Data Analysis</li>
+            </ul>
+            <h4>Cybersecurity &amp; Privacy</h4>
+            <ul>
+              <li>Cybersecurity: Actors, Incentives, Interventions</li><li>Cyber Crime Science</li><li>User-Centred Security</li>
+            </ul>
+            <h4>Systems &amp; Architecture</h4>
+            <ul>
+              <li>I and C Architecture Design</li><li>I and C Service Design</li><li>ICT System Engineering and Rapid Prototyping</li><li>Interconnected Engineering Systems</li><li>Introduction to Design in Complex Systems</li><li>Design in Networked Systems</li><li>Digital Platform Design</li><li>Complex Systems Engineering</li><li>Design Project</li><li>Computer and Information Systems</li><li>Introduction to Programming with Python</li>
+            </ul>
+            <h4>Mathematics &amp; Modelling</h4>
+            <ul>
+              <li>Differential Equations and Linear Algebra</li><li>Multivariable Analysis and Linear Algebra</li><li>Systems Modelling 1: Modelling Principles</li><li>Systems Modelling 2</li><li>System Modelling 3: Simulation Methods</li><li>System Modelling 4: Project Simulation Methods</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Economics &amp; Finance</h4>
+            <ul>
+              <li>Micro and Market Economy</li><li>Economy of Infrastructures</li><li>Operational Research</li><li>Foundations of Finance</li><li>Engineering Economy</li><li>Economics Analysis for Business Decisions</li><li>Management Accounting</li>
+            </ul>
+            <h4>Management &amp; Organisation</h4>
+            <ul>
+              <li>Managing Multi-actor Decision-making</li><li>Organisation and Management</li><li>Analysis of Multi-Actor Systems</li><li>CoSEM Research Challenges</li><li>Problem Analysis</li>
+            </ul>
+            <h4>Governance, Law &amp; Policy</h4>
+            <ul>
+              <li>Governance Specialisatie (I and C)</li><li>Governance van sociotechnische systemen</li><li>I&amp;C in a socio-technical context</li><li>Institutional Economics for Designing in Socio-technical Systems</li><li>Government and Law 1</li><li>Governance and Law 2</li><li>Law and Institutions</li><li>Ethics and Safety</li>
+            </ul>
+            <h4>Research &amp; Thesis</h4>
+            <ul>
+              <li>Master Thesis Research Design</li><li>Bachelor Final Project</li><li>Internship TPM</li><li>Sustainable Development</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
     <section>
       <h2>Education</h2>
       <div class="card">
-        <h3>TU Delft</h3>
-        <div class="meta">MSc Complex Systems Engineering and Management · BSc Technology, Policy and Management</div>
+        <h3>TU Delft – MSc Complex Systems Engineering and Management</h3>
+        <div class="meta">Delft · Sep 2024 – Jun 2026 · Track: Data &amp; Digitalisation</div>
+        <ul><li>Thesis on privacy threats in MCP and A2A, applied to financial fraud detection in banking.</li><li>Six or more data analysis courses in Python, plus four systems modelling courses (see coursework above).</li></ul>
+      </div>
+      <div class="card">
+        <h3>Comillas Pontifical University ICAI – Minor exchange, Business &amp; Finance</h3>
+        <div class="meta">Madrid · Sep 2023 – Dec 2023</div>
+      </div>
+      <div class="card">
+        <h3>TU Delft – BSc Technology, Policy and Management</h3>
+        <div class="meta">Delft · Sep 2019 – Jun 2024 · Track: Data &amp; Digitalisation</div>
+        <ul><li>Bachelor thesis on digital identity: eIDAS, DigiD and the Data Act (8.3/10).</li></ul>
+      </div>
+      <div class="card">
+        <h3>Christelijk Gymnasium Sorghvliet – VWO</h3>
+        <div class="meta">The Hague · Sep 2013 – Jun 2019</div>
+        <ul><li>Final project: an NFC chip card built in SQL that replaced manual attendance lists and reduced the administrative work for teachers.</li></ul>
       </div>
     </section>
   </main>

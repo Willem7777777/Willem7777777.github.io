@@ -1,0 +1,984 @@
+{
+  "info": {
+    "name": "Mollie API - test mode",
+    "description": "Learning collection for the Mollie Payments API (test mode). Set the apiKey variable in the environment to your own test_ key. Never commit a real key. Folders 1-5 also practise Postman features: collection-level scripts (a guard that only allows test_ keys), variables, data-driven runs, polling in the Runner, idempotency keys, schema tests and a simulated webhook.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "1. Payments",
+      "item": [
+        {
+          "name": "Create payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments"
+              ]
+            },
+            "description": "Creates a test payment. The id is saved to the collection variable paymentId and the checkout URL is printed in the Postman console.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": \"10.00\"\n  },\n  \"description\": \"Test payment\",\n  \"redirectUrl\": \"https://example.org/thanks\",\n  \"metadata\": {\n    \"order_id\": \"TEST-1001\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 201 Created\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"Payment starts as open\", () => pm.expect(body.status).to.eql(\"open\"));",
+                  "pm.test(\"Has a checkout link\", () => pm.expect(body._links.checkout.href).to.be.a(\"string\"));",
+                  "pm.collectionVariables.set(\"paymentId\", body.id);",
+                  "pm.collectionVariables.set(\"checkoutUrl\", body._links.checkout.href);",
+                  "console.log(\"Open this URL to pay in test mode:\", body._links.checkout.href);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get payment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments/{{paymentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments",
+                "{{paymentId}}"
+              ]
+            },
+            "description": "Fetches the payment created above. Open the checkout URL first and choose a test status (paid, failed, canceled) to see the status change."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Id matches the created payment\", () => pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"paymentId\")));",
+                  "console.log(\"Payment status:\", pm.response.json().status);",
+                  "const schema = {",
+                  "  type: 'object',",
+                  "  required: ['id', 'status', 'amount', '_links'],",
+                  "  properties: {",
+                  "    id: { type: 'string', pattern: '^tr_' },",
+                  "    status: { enum: ['open', 'pending', 'authorized', 'paid', 'failed', 'canceled', 'expired'] },",
+                  "    amount: { type: 'object', required: ['currency', 'value'] }",
+                  "  }",
+                  "};",
+                  "pm.test('Response matches the expected schema', () => pm.response.to.have.jsonSchema(schema));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List payments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments?limit=5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Lists the five most recent payments (pagination with limit)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Returns an embedded list\", () => pm.expect(pm.response.json()._embedded.payments).to.be.an(\"array\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refund payment (only after status paid)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments/{{paymentId}}/refunds",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments",
+                "{{paymentId}}",
+                "refunds"
+              ]
+            },
+            "description": "Partial refund. Only works once the test payment has status paid.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": \"5.00\"\n  },\n  \"description\": \"Partial test refund\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 201 Created\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Refund is queued or pending\", () => pm.expect([\"queued\",\"pending\",\"processing\",\"refunded\"]).to.include(pm.response.json().status));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create payment (data-driven)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": \"{{amount}}\"\n  },\n  \"description\": \"Data-driven test payment\",\n  \"redirectUrl\": \"https://example.org/thanks\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments"
+              ]
+            },
+            "description": "Run this with the Collection Runner and select data/payment-amounts.json. Each row supplies `amount` and the `expectedStatus` the test asserts. Data variables override collection variables with the same name, so without a data file it just uses amount = 10.00. The expected statuses in the file are my assumptions: if Mollie answers differently, change the file to what the API really returns and note it in the README."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const expected = Number(pm.iterationData.get(\"expectedStatus\") || 201);",
+                  "pm.test(`Status is ${expected} for amount ${pm.variables.get(\"amount\")}`, () => pm.response.to.have.status(expected));",
+                  "if (expected === 201) { pm.expect(pm.response.json().status).to.eql(\"open\"); }",
+                  "else { pm.test(\"Error explains the problem\", () => pm.expect(pm.response.json().detail).to.be.a(\"string\")); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create payment (idempotent retry)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{idempotencyKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": \"4.00\"\n  },\n  \"description\": \"Idempotency demo\",\n  \"redirectUrl\": \"https://example.org/thanks\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments"
+              ]
+            },
+            "description": "Send this twice in a row. The first call creates a payment; the second carries the same Idempotency-Key and returns the cached response with the header `Idempotent-Replayed: true` and the same payment id. Mollie keeps keys for one hour. To start over, clear the `idempotencyKey` collection variable. This matters most for recurring payments, subscriptions and partial refunds, where a blind retry can charge twice."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Generate the key once and reuse it on every retry. A fresh key means a new request.",
+                  "if (!pm.collectionVariables.get(\"idempotencyKey\")) {",
+                  "  pm.collectionVariables.set(\"idempotencyKey\", pm.variables.replaceIn(\"{{$guid}}\"));",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const replayed = pm.response.headers.get(\"Idempotent-Replayed\");",
+                  "const body = pm.response.json();",
+                  "if (!replayed) {",
+                  "  pm.test(\"First call creates the payment (201)\", () => pm.response.to.have.status(201));",
+                  "  pm.collectionVariables.set(\"idempotentPaymentId\", body.id);",
+                  "  console.log(\"Now send this exact request again. Mollie should replay the same payment.\");",
+                  "} else {",
+                  "  pm.test(\"Second call is a replay\", () => pm.expect(replayed).to.eql(\"true\"));",
+                  "  pm.test(\"Same payment id is returned, no duplicate\", () => pm.expect(body.id).to.eql(pm.collectionVariables.get(\"idempotentPaymentId\")));",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Poll payment until final (Runner)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments/{{paymentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments",
+                "{{paymentId}}"
+              ]
+            },
+            "description": "Only works in the Collection Runner. Create a payment, start this request in the Runner, then open the checkout and pick a result. The request repeats until the status leaves `open` (max 10 attempts). In production you would use a webhook instead of polling."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const status = pm.response.json().status;",
+                  "const tries = Number(pm.collectionVariables.get(\"pollCount\") || 0) + 1;",
+                  "pm.collectionVariables.set(\"pollCount\", tries);",
+                  "console.log(`Attempt ${tries}: status = ${status}`);",
+                  "if (status === \"open\" && tries < 10) {",
+                  "  setTimeout(() => {}, 3000);                 // wait 3 s between attempts",
+                  "  pm.execution.setNextRequest(pm.info.requestName);   // run this request again",
+                  "} else {",
+                  "  pm.collectionVariables.set(\"pollCount\", 0);",
+                  "  pm.test(\"Payment reached a final status\", () => pm.expect([\"paid\", \"failed\", \"canceled\", \"expired\", \"authorized\"]).to.include(status));",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create payment with webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": \"6.00\"\n  },\n  \"description\": \"Webhook demo\",\n  \"redirectUrl\": \"https://example.org/thanks\",\n  \"webhookUrl\": \"{{webhookUrl}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments"
+              ]
+            },
+            "description": "Mollie calls the webhook URL with a single form field `id` whenever the payment reaches a final status. The URL must be reachable from the internet (no localhost). To actually see the calls, set `webhookUrl` in the environment to your own free request-inspector URL, for example from webhook.site."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 201 Created\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Webhook URL was stored\", () => pm.expect(pm.response.json().webhookUrl).to.eql(pm.variables.get(\"webhookUrl\")));",
+                  "pm.collectionVariables.set(\"paymentId\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Simulate a Mollie webhook call",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "{{paymentId}}"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{webhookUrl}}",
+              "host": [
+                "{{webhookUrl}}"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "Shows what a webhook receiver gets: a form-encoded POST with only `id=tr_...`. The status is deliberately not included, so a fake call cannot make a shop ship an unpaid order. Authorization is set to 'No Auth' on purpose: my API key must never be sent to a third-party URL."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Endpoint answers 200\", () => pm.response.to.have.status(200));",
+                  "const echoed = pm.response.json().form || {};",
+                  "pm.test(\"Body contains only the payment id, no status\", () => {",
+                  "  pm.expect(echoed.id).to.eql(pm.collectionVariables.get(\"paymentId\"));",
+                  "  pm.expect(Object.keys(echoed)).to.eql([\"id\"]);",
+                  "});",
+                  "console.log(\"A real receiver must now GET /v2/payments/\" + echoed.id + \" to learn the status.\");"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Methods",
+      "item": [
+        {
+          "name": "List payment methods",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/methods?amount[value]=10.00&amount[currency]=EUR",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "methods"
+              ],
+              "query": [
+                {
+                  "key": "amount[value]",
+                  "value": "10.00"
+                },
+                {
+                  "key": "amount[currency]",
+                  "value": "EUR"
+                }
+              ]
+            },
+            "description": "Shows which payment methods are available for this profile and amount."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+                  "const methods = pm.response.json()._embedded.methods.map(m => m.id);",
+                  "console.log(\"Available methods:\", methods.join(\", \"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List methods for a first (mandate) payment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/methods?sequenceType=first&amount[value]=9.99&amount[currency]=EUR",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "methods"
+              ],
+              "query": [
+                {
+                  "key": "sequenceType",
+                  "value": "first"
+                },
+                {
+                  "key": "amount[value]",
+                  "value": "9.99"
+                },
+                {
+                  "key": "amount[currency]",
+                  "value": "EUR"
+                }
+              ]
+            },
+            "description": "Check this BEFORE creating a first payment or a payment link. An empty list explains why a first payment cannot be paid or why creating a payment link returns 422 'No payment methods are enabled for this profile'."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+                  "const ids = pm.response.json()._embedded.methods.map(m => m.id);",
+                  "console.log(\"Methods that can start a mandate:\", ids.join(\", \") || \"(none)\");",
+                  "pm.test(\"At least one method can start a mandate\", () =>",
+                  "  pm.expect(ids.length, \"No method enabled for sequenceType=first. Enable one in Dashboard > Profile > Payment methods.\").to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Customers and payment links",
+      "item": [
+        {
+          "name": "Create customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v2/customers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "customers"
+              ]
+            },
+            "description": "Creates a test customer (fake data).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Customer\",\n  \"email\": \"test.customer@example.org\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 201 Created\", () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set(\"customerId\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create payment link",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v2/payment-links",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payment-links"
+              ]
+            },
+            "description": "A payment link is a reusable URL that needs no integration: handy for invoices.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": \"25.00\"\n  },\n  \"description\": \"Test payment link\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 201 Created\", () => pm.response.to.have.status(201));",
+                  "console.log(\"Share this link:\", pm.response.json()._links.paymentLink.href);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4. Error handling",
+      "item": [
+        {
+          "name": "Invalid amount (expect 422)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments"
+              ]
+            },
+            "description": "Negative test: shows how the API reports validation errors.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": \"abc\"\n  },\n  \"description\": \"Bad amount\",\n  \"redirectUrl\": \"https://example.org/thanks\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Mollie rejects invalid input with 422\", () => pm.response.to.have.status(422));",
+                  "pm.test(\"Error body explains the problem\", () => pm.expect(pm.response.json().detail).to.be.a(\"string\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing API key (expect 401)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments"
+              ]
+            },
+            "description": "Authorization is overridden with 'No Auth' on this request, so it should be rejected.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Request without a valid key is refused\", () => pm.expect([401,403]).to.include(pm.response.code));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5. Recurring (first payment, mandate, subscription)",
+      "item": [
+        {
+          "name": "First payment (starts a mandate)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": \"9.99\"\n  },\n  \"description\": \"First payment for mandate\",\n  \"redirectUrl\": \"https://example.org/thanks\",\n  \"customerId\": \"{{customerId}}\",\n  \"sequenceType\": \"first\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v2/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "payments"
+              ]
+            },
+            "description": "Run 'Create customer' first (folder 3). Without `method`, the checkout offers only methods that can start a mandate. A card creates a card mandate; iDEAL, Bancontact and similar methods create a SEPA direct debit mandate, which only works if SEPA Direct Debit is also enabled on the profile. If the needed method is not enabled, Mollie returns 422 ('The payment method selected does not accept recurring payments')."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 201 Created\", () => pm.response.to.have.status(201));",
+                  "const b = pm.response.json();",
+                  "pm.test(\"Sequence type is first\", () => pm.expect(b.sequenceType).to.eql(\"first\"));",
+                  "pm.collectionVariables.set(\"paymentId\", b.id);",
+                  "pm.collectionVariables.set(\"checkoutUrl\", b._links.checkout.href);",
+                  "console.log(\"Open this checkout and complete it as a test payment:\", b._links.checkout.href);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List mandates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/customers/{{customerId}}/mandates",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "customers",
+                "{{customerId}}",
+                "mandates"
+              ]
+            },
+            "description": "A mandate is the customer's permission to charge them again later. It appears only after the first payment is completed."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+                  "const m = pm.response.json()._embedded.mandates;",
+                  "const valid = m.find(x => x.status === \"valid\");",
+                  "if (valid) { pm.collectionVariables.set(\"mandateId\", valid.id); }",
+                  "pm.test(\"A valid mandate exists (complete the first payment first)\", () => pm.expect(valid, \"no valid mandate yet\").to.not.be.undefined);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": \"5.00\"\n  },\n  \"interval\": \"1 month\",\n  \"times\": 3,\n  \"description\": \"Postman practice subscription\",\n  \"webhookUrl\": \"{{webhookUrl}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v2/customers/{{customerId}}/subscriptions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "customers",
+                "{{customerId}}",
+                "subscriptions"
+              ]
+            },
+            "description": "Needs a valid mandate (see List mandates). `interval` is e.g. '1 month' or '2 weeks', `times` limits the number of charges. Test-mode subscriptions are canceled automatically after 10 payments."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// A subscription creates recurring charges, so it must never be sent twice by accident.",
+                  "pm.request.headers.upsert({ key: \"Idempotency-Key\", value: pm.variables.replaceIn(\"{{$guid}}\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 201 Created\", () => pm.response.to.have.status(201));",
+                  "const b = pm.response.json();",
+                  "pm.test(\"Subscription is active or pending\", () => pm.expect([\"active\", \"pending\"]).to.include(b.status));",
+                  "pm.collectionVariables.set(\"subscriptionId\", b.id);",
+                  "console.log(\"Next payment date:\", b.nextPaymentDate);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List subscription payments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/customers/{{customerId}}/subscriptions/{{subscriptionId}}/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "customers",
+                "{{customerId}}",
+                "subscriptions",
+                "{{subscriptionId}}",
+                "payments"
+              ]
+            },
+            "description": "Empty until the first scheduled charge date. Payments created by a subscription have sequenceType recurring."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+                  "console.log(\"Payments so far:\", (pm.response.json()._embedded?.payments || []).length);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cancel subscription",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/customers/{{customerId}}/subscriptions/{{subscriptionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                "customers",
+                "{{customerId}}",
+                "subscriptions",
+                "{{subscriptionId}}"
+              ]
+            },
+            "description": "Clean-up step. Cancels the subscription; the mandate and customer stay."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Subscription is canceled\", () => pm.expect(pm.response.json().status).to.eql(\"canceled\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "paymentId",
+      "value": ""
+    },
+    {
+      "key": "checkoutUrl",
+      "value": ""
+    },
+    {
+      "key": "customerId",
+      "value": ""
+    },
+    {
+      "key": "amount",
+      "value": "10.00"
+    },
+    {
+      "key": "idempotencyKey",
+      "value": ""
+    },
+    {
+      "key": "idempotentPaymentId",
+      "value": ""
+    },
+    {
+      "key": "mandateId",
+      "value": ""
+    },
+    {
+      "key": "subscriptionId",
+      "value": ""
+    },
+    {
+      "key": "pollCount",
+      "value": "0"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Safety guard: this collection may only talk to Mollie TEST mode.",
+          "const key = pm.environment.get(\"apiKey\") || pm.collectionVariables.get(\"apiKey\");",
+          "if (!key || !String(key).startsWith(\"test_\")) {",
+          "  pm.execution.skipRequest();   // make sure the request is NOT sent (a thrown error alone is not enough in every runner)",
+          "  throw new Error(\"Refusing to send: set apiKey in the 'Mollie test' environment to a key that starts with test_. This collection is for test mode only.\");",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Runs after every request in the collection.",
+          "pm.test(\"Response is JSON\", () => pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"json\"));"
+        ]
+      }
+    }
+  ]
+}

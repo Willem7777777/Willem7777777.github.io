@@ -1,0 +1,18 @@
+[
+  {
+    "amount": "5.00",
+    "expectedStatus": 201
+  },
+  {
+    "amount": "12.50",
+    "expectedStatus": 201
+  },
+  {
+    "amount": "abc",
+    "expectedStatus": 422
+  },
+  {
+    "amount": "-5.00",
+    "expectedStatus": 422
+  }
+]
