@@ -19,14 +19,6 @@ All courses from my TU Delft BSc and MSc, grouped by category. Where a course pr
 | Statistics and Data Analysis | – |
 | Research and Data Analysis | – |
 
-### Cybersecurity & Privacy
-
-| Course | In this repository |
-|---|---|
-| Cybersecurity: Actors, Incentives, Interventions | – |
-| Cyber Crime Science | [`reports-papers/`](reports-papers/) (group presentation) |
-| User-Centred Security | [`reports-papers/`](reports-papers/) (MFA fatigue and Zero Trust paper) |
-
 ### Systems & Architecture
 
 | Course | In this repository |
@@ -43,6 +35,14 @@ All courses from my TU Delft BSc and MSc, grouped by category. Where a course pr
 | Computer and Information Systems | – |
 | Introduction to Programming with Python | – |
 
+### Cybersecurity & Privacy
+
+| Course | In this repository |
+|---|---|
+| Cybersecurity: Actors, Incentives, Interventions | – |
+| Cyber Crime Science | [`reports-papers/`](reports-papers/) (group presentation) |
+| User-Centred Security | [`reports-papers/`](reports-papers/) (MFA fatigue and Zero Trust paper) |
+
 ### Mathematics & Modelling
 
 | Course | In this repository |
@@ -53,16 +53,6 @@ All courses from my TU Delft BSc and MSc, grouped by category. Where a course pr
 | Systems Modelling 2 | – |
 | System Modelling 3: Simulation Methods | – |
 | System Modelling 4: Project Simulation Methods | – |
-
-### Management & Organisation
-
-| Course | In this repository |
-|---|---|
-| Managing Multi-actor Decision-making | [`reports-papers/`](reports-papers/) (Chat Control paper) |
-| Organisation and Management | – |
-| Analysis of Multi-Actor Systems | – |
-| CoSEM Research Challenges | [`reports-papers/`](reports-papers/) (Digital Product Passport literature review) |
-| Problem Analysis | – |
 
 ### Economics & Finance
 
@@ -75,6 +65,16 @@ All courses from my TU Delft BSc and MSc, grouped by category. Where a course pr
 | Engineering Economy | – |
 | Economics Analysis for Business Decisions | – |
 | Management Accounting | – |
+
+### Management & Organisation
+
+| Course | In this repository |
+|---|---|
+| Managing Multi-actor Decision-making | [`reports-papers/`](reports-papers/) (Chat Control paper) |
+| Organisation and Management | – |
+| Analysis of Multi-Actor Systems | – |
+| CoSEM Research Challenges | [`reports-papers/`](reports-papers/) (Digital Product Passport literature review) |
+| Problem Analysis | – |
 
 ### Governance, Law & Policy
 
