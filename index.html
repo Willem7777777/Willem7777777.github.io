@@ -167,9 +167,12 @@
     details.courses-box summary::after { content:"+"; color:var(--accent); font-size:1.3rem; line-height:1; }
     details[open].courses-box summary::after { content:"–"; }
     details.courses-box .inner { padding:0 22px 20px; }
-    .courses { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:4px 28px; }
+    .courses { column-count:2; column-gap:28px; }
+    .courses .cat { break-inside:avoid; margin-bottom:6px; }
+    .courses.rest { margin-top:18px; padding-top:6px; border-top:1px solid var(--line); }
+    @media (max-width:700px) { .courses { column-count:1; } }
     .courses h4 { margin:14px 0 4px; font-size:.95rem; color:var(--accent); }
-    .courses h4:first-child { margin-top:0; }
+    .courses .cat:first-child h4 { margin-top:0; }
     .courses ul { margin:2px 0 0; padding-left:20px; font-size:.95rem; }
 
     footer { text-align:center; color:var(--muted); font-size:.85rem; padding:0 20px 36px; }
@@ -495,44 +498,24 @@ changed = last_status.get(payment_id) != status
       <details class="courses-box" open>
         <summary>Relevant coursework</summary>
         <div class="inner">
-        <div class="courses">
-          <div>
-            <h4>Data &amp; Analytics</h4>
-            <ul>
+        <div class="courses"><div class="cat"><h4>Data &amp; Analytics</h4><ul>
               <li>Responsible Data Analytics</li><li>Statistical Analysis of Choice Behaviour</li><li>Data Science in Technische Bestuurskunde</li><li>Multivariate Data Analysis</li><li>Statistics and Data Analysis</li><li>Research and Data Analysis</li>
-            </ul>
-            <h4>Systems &amp; Architecture</h4>
-            <ul>
+            </ul></div><div class="cat"><h4>Systems &amp; Architecture</h4><ul>
               <li>I and C Architecture Design</li><li>I and C Service Design</li><li>ICT System Engineering and Rapid Prototyping</li><li>Interconnected Engineering Systems</li><li>Introduction to Design in Complex Systems</li><li>Design in Networked Systems</li><li>Digital Platform Design</li><li>Complex Systems Engineering</li><li>Design Project</li><li>Computer and Information Systems</li><li>Introduction to Programming with Python</li>
-            </ul>
-            <h4>Cybersecurity &amp; Privacy</h4>
-            <ul>
+            </ul></div><div class="cat"><h4>Cybersecurity &amp; Privacy</h4><ul>
               <li>Cybersecurity: Actors, Incentives, Interventions</li><li>Cyber Crime Science</li><li>User-Centred Security</li>
-            </ul>
-            <h4>Mathematics &amp; Modelling</h4>
-            <ul>
+            </ul></div><div class="cat"><h4>Mathematics &amp; Modelling</h4><ul>
               <li>Differential Equations and Linear Algebra</li><li>Multivariable Analysis and Linear Algebra</li><li>Systems Modelling 1: Modelling Principles</li><li>Systems Modelling 2</li><li>System Modelling 3: Simulation Methods</li><li>System Modelling 4: Project Simulation Methods</li>
-            </ul>
-          </div>
-          <div>
-            <h4>Economics &amp; Finance</h4>
-            <ul>
+            </ul></div></div>
+        <div class="courses rest"><div class="cat"><h4>Economics &amp; Finance</h4><ul>
               <li>Micro and Market Economy</li><li>Economy of Infrastructures</li><li>Operational Research</li><li>Foundations of Finance</li><li>Engineering Economy</li><li>Economics Analysis for Business Decisions</li><li>Management Accounting</li>
-            </ul>
-            <h4>Management &amp; Organisation</h4>
-            <ul>
+            </ul></div><div class="cat"><h4>Management &amp; Organisation</h4><ul>
               <li>Managing Multi-actor Decision-making</li><li>Organisation and Management</li><li>Analysis of Multi-Actor Systems</li><li>CoSEM Research Challenges</li><li>Problem Analysis</li>
-            </ul>
-            <h4>Governance, Law &amp; Policy</h4>
-            <ul>
+            </ul></div><div class="cat"><h4>Governance, Law &amp; Policy</h4><ul>
               <li>Governance Specialisatie (I and C)</li><li>Governance van sociotechnische systemen</li><li>I&amp;C in a socio-technical context</li><li>Institutional Economics for Designing in Socio-technical Systems</li><li>Government and Law 1</li><li>Governance and Law 2</li><li>Law and Institutions</li><li>Ethics and Safety</li>
-            </ul>
-            <h4>Research &amp; Thesis</h4>
-            <ul>
+            </ul></div><div class="cat"><h4>Research &amp; Thesis</h4><ul>
               <li>Master Thesis Research Design</li><li>Bachelor Final Project</li><li>Internship TPM</li><li>Sustainable Development</li>
-            </ul>
-          </div>
-        </div>
+            </ul></div></div>
         </div>
       </details>
     </section>
