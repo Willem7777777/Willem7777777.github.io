@@ -4,6 +4,102 @@ Python and Java projects, and reports from my studies at TU Delft (BSc Technolog
 
 Every folder has its own README with what I built and what I learned. The portfolio page has the same split in two tabs: **Reports** and **Code**.
 
+## Courses by category
+
+All courses from my TU Delft BSc and MSc, grouped by category. Where a course produced code or a report that is in this repository, it is linked; the other courses had no code or report that I have published here.
+
+### Data & Analytics
+
+| Course | In this repository |
+|---|---|
+| Responsible Data Analytics | [`responsible-data-analytics/`](responsible-data-analytics/) |
+| Statistical Analysis of Choice Behaviour | – |
+| Data Science in Technische Bestuurskunde | [`data-science-tb/`](data-science-tb/), [`data-science-group-project-obesity/`](data-science-group-project-obesity/), [`reports-papers/`](reports-papers/) (toeslagenaffaire essay) |
+| Multivariate Data Analysis | – |
+| Statistics and Data Analysis | – |
+| Research and Data Analysis | – |
+
+### Cybersecurity & Privacy
+
+| Course | In this repository |
+|---|---|
+| Cybersecurity: Actors, Incentives, Interventions | – |
+| Cyber Crime Science | [`reports-papers/`](reports-papers/) (group presentation) |
+| User-Centred Security | [`reports-papers/`](reports-papers/) (MFA fatigue and Zero Trust paper) |
+
+### Systems & Architecture
+
+| Course | In this repository |
+|---|---|
+| I and C Architecture Design | – |
+| I and C Service Design | [`reports-papers/`](reports-papers/) (smart-home service design reflection) |
+| ICT System Engineering and Rapid Prototyping | – |
+| Interconnected Engineering Systems | – |
+| Introduction to Design in Complex Systems | – |
+| Design in Networked Systems | [`network-science-lectures/`](network-science-lectures/), [`network-accessibility-helsinki/`](network-accessibility-helsinki/) |
+| Digital Platform Design | [`digital-platform-design/`](digital-platform-design/) |
+| Complex Systems Engineering | – |
+| Design Project | – |
+| Computer and Information Systems | – |
+| Introduction to Programming with Python | – |
+
+### Mathematics & Modelling
+
+| Course | In this repository |
+|---|---|
+| Differential Equations and Linear Algebra | – |
+| Multivariable Analysis and Linear Algebra | – |
+| Systems Modelling 1: Modelling Principles | – |
+| Systems Modelling 2 | – |
+| System Modelling 3: Simulation Methods | – |
+| System Modelling 4: Project Simulation Methods | – |
+
+### Management & Organisation
+
+| Course | In this repository |
+|---|---|
+| Managing Multi-actor Decision-making | [`reports-papers/`](reports-papers/) (Chat Control paper) |
+| Organisation and Management | – |
+| Analysis of Multi-Actor Systems | – |
+| CoSEM Research Challenges | [`reports-papers/`](reports-papers/) (Digital Product Passport literature review) |
+| Problem Analysis | – |
+
+### Economics & Finance
+
+| Course | In this repository |
+|---|---|
+| Micro and Market Economy | – |
+| Economy of Infrastructures | – |
+| Operational Research | – |
+| Foundations of Finance | – |
+| Engineering Economy | – |
+| Economics Analysis for Business Decisions | – |
+| Management Accounting | – |
+
+### Governance, Law & Policy
+
+| Course | In this repository |
+|---|---|
+| Governance Specialisatie (I and C) | – |
+| Governance van sociotechnische systemen | – |
+| I&C in a socio-technical context | – |
+| Institutional Economics for Designing in Socio-technical Systems | – |
+| Government and Law 1 | – |
+| Governance and Law 2 | – |
+| Law and Institutions | – |
+| Ethics and Safety | – |
+
+### Research & Thesis
+
+| Course | In this repository |
+|---|---|
+| Master Thesis Research Design | [`reports-papers/`](reports-papers/) (hybrid cloud sovereignty proposal, thesis defence slides) |
+| Bachelor Final Project | [`bachelor-thesis-digid-eidas/`](bachelor-thesis-digid-eidas/) |
+| Internship TPM | – |
+| Sustainable Development | – |
+
+**Also in this repository, from outside the course list above:** [`finance-python-comillas/`](finance-python-comillas/) (Python for finance, exchange at Universidad Pontificia Comillas), [`graph-theory-besliskunde/`](graph-theory-besliskunde/) (BSc Besliskunde), the WGS governance essay in [`reports-papers/`](reports-papers/) (TB321 Governance) and [`java/`](java/) (first-year Java course).
+
 ## Reports
 
 | Folder | Content |
